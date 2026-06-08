@@ -8,13 +8,14 @@ Tiempo sugerido: 30 segundos.
 
 Frase sugerida:
 
-> Buenos dias/tardes. En este video presento la solucion desarrollada para la actividad: una API REST para una plataforma basica de gestion de pedidos, junto con una propuesta de automatizacion DevOps en AWS usando CodeCommit, CodePipeline, CodeBuild, CloudFormation y Elastic Beanstalk.
+> Buenos dias/tardes. En este video presento la solucion desarrollada para la actividad: una API REST para una plataforma basica de gestion de pedidos. En esta demostracion se va a mostrar el funcionamiento de la aplicacion de forma local. La conexion y automatizacion en AWS se evidencia en el documento del entregable, ya que durante la configuracion se presentaron algunos inconvenientes con permisos IAM, similar a lo ocurrido en la aplicacion anterior.
 
 Explicar:
 
-- El objetivo fue automatizar el ciclo de vida de la aplicacion.
+- El objetivo fue desarrollar la aplicacion y dejar definida la automatizacion del ciclo de vida en AWS.
 - La aplicacion permite crear pedidos, consultar pedidos, filtrarlos y actualizar su estado.
-- El despliegue se plantea usando infraestructura como codigo y pipeline CI/CD.
+- En el video se demuestra el funcionamiento del sistema.
+- La parte de AWS se explica y evidencia en el informe.
 
 ## 2. Mostrar estructura del proyecto
 
@@ -63,7 +64,7 @@ npm test
 
 Frase sugerida:
 
-> Antes de desplegar, se ejecutan pruebas automatizadas. Estas pruebas validan que se puedan crear pedidos, listar pedidos, consultar pedidos, actualizar estados y rechazar datos invalidos. Esta misma validacion se ejecuta dentro del pipeline de integracion continua.
+> Antes de ejecutar la aplicacion, se realizan pruebas automatizadas. Estas pruebas validan que se puedan crear pedidos, listar pedidos, consultar pedidos, actualizar estados y rechazar datos invalidos. En la propuesta de AWS, estas mismas pruebas se ejecutan dentro del pipeline de integracion continua.
 
 Resultado esperado:
 
@@ -139,19 +140,19 @@ Frase sugerida:
 
 > Finalmente actualizo el estado del pedido. Este endpoint permite representar las etapas del proceso logistico, por ejemplo pasar de `Pendiente` a `En Proceso`, `Enviado` o `Entregado`.
 
-## 8. Explicar el pipeline AWS
+## 8. Explicar la propuesta AWS documentada
 
 Tiempo sugerido: 1 minuto y 30 segundos.
 
-Mostrar `buildspec.yml` e `infrastructure/cloudformation-pipeline.yml`.
+Mostrar `buildspec.yml`, `infrastructure/cloudformation-pipeline.yml` y `docs/informe.pdf`.
 
 Frase sugerida:
 
-> Para la automatizacion DevOps se definio un pipeline en AWS. El flujo inicia cuando se suben cambios al repositorio. CodePipeline toma el codigo fuente, CodeBuild instala dependencias, ejecuta pruebas unitarias y genera el artefacto. Luego, el artefacto se entrega a Elastic Beanstalk para desplegar la aplicacion.
+> Para la automatizacion DevOps se definio una propuesta de pipeline en AWS. El flujo inicia cuando se suben cambios al repositorio. CodePipeline toma el codigo fuente, CodeBuild instala dependencias, ejecuta pruebas unitarias y genera el artefacto. Luego, el artefacto se entrega a Elastic Beanstalk para desplegar la aplicacion.
 
-Explicar permisos si aplica:
+Explicar permisos:
 
-> Durante la configuracion en AWS pueden aparecer ajustes de permisos IAM, especialmente para permitir que CodePipeline, CodeBuild y Elastic Beanstalk accedan a S3, CodeCommit y a los recursos de despliegue. Estos permisos se manejan por medio de roles IAM definidos en la plantilla de infraestructura.
+> En esta parte no se hara la demostracion en vivo de AWS porque durante la configuracion se presentaron problemas con permisos IAM. Sin embargo, la conexion con AWS, los servicios usados y la estructura del pipeline se muestran en el documento del entregable. Los permisos necesarios se relacionan principalmente con los roles para que CodePipeline, CodeBuild y Elastic Beanstalk puedan acceder a S3, al repositorio y a los recursos de despliegue.
 
 ## 9. Mostrar informe
 
@@ -161,7 +162,7 @@ Mostrar `docs/informe.pdf`.
 
 Frase sugerida:
 
-> Como entregable documental se genero un informe en PDF donde se resumen los requisitos cumplidos, la arquitectura, los endpoints, la automatizacion DevOps, las pruebas y las conclusiones del proyecto.
+> Como entregable documental se genero un informe en PDF donde se resumen los requisitos cumplidos, la arquitectura, los endpoints, la propuesta de automatizacion DevOps en AWS, las pruebas y las conclusiones del proyecto. En este documento se evidencia la parte de conexion y despliegue en AWS.
 
 ## 10. Cierre
 
@@ -169,5 +170,4 @@ Tiempo sugerido: 30 segundos.
 
 Frase sugerida:
 
-> En conclusion, la solucion cumple con los requisitos principales del caso de estudio: permite gestionar pedidos mediante una API REST y propone una automatizacion CI/CD en AWS. Como mejora futura, se podria agregar una base de datos como DynamoDB o RDS, autenticacion de usuarios y ambientes separados de pruebas y produccion.
-
+> En conclusion, la solucion cumple con los requisitos principales del caso de estudio: permite gestionar pedidos mediante una API REST y deja planteada la automatizacion CI/CD en AWS. En el video se demostro el funcionamiento de la aplicacion, mientras que la conexion y configuracion en AWS se presenta en el documento del entregable. Como mejora futura, se podria agregar una base de datos como DynamoDB o RDS, autenticacion de usuarios y ambientes separados de pruebas y produccion.
