@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{graphicx}
+
+\title{Informe: Implementacion Automatizada de una API REST de Gestion de Pedidos en AWS}
+\author{Grupo de trabajo}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Resumen}
+
+Se desarrollo una API REST para una plataforma basica de gestion de pedidos. La solucion permite crear pedidos, listar pedidos con filtros y ordenamiento, consultar pedidos por identificador y actualizar su estado. Ademas, se definio una automatizacion DevOps en AWS usando control de versiones, integracion continua, generacion de artefactos y despliegue automatico hacia un entorno de pruebas.
+
+\section{Requisitos de negocio}
+
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+\textbf{Requisito} & \textbf{Cumplimiento} \\
+\hline
+Crear pedidos & Se implemento el endpoint \texttt{POST /orders}, que recibe cliente, productos, cantidades y direccion de envio. El pedido queda con estado inicial \texttt{Pendiente}. \\
+\hline
+Visualizar pedidos & Se implemento \texttt{GET /orders}. Permite filtrar por estado y ordenar por fecha de creacion, estado o cliente. \\
+\hline
+Actualizar estado & Se implemento \texttt{PATCH /orders/\{id\}/status}. Los estados permitidos son \texttt{Pendiente}, \texttt{En Proceso}, \texttt{Enviado} y \texttt{Entregado}. \\
+\hline
+\end{longtable}
+
+\section{Arquitectura de la aplicacion}
+
+La API fue desarrollada con Node.js usando el modulo HTTP nativo, sin dependencias externas obligatorias. Esta decision permite ejecutar pruebas y builds de forma simple en AWS CodeBuild. Para fines academicos, los pedidos se almacenan en memoria; en un escenario productivo se recomienda incorporar Amazon DynamoDB o Amazon RDS.
+
+\subsection{Endpoints principales}
+
+\begin{itemize}
+  \item \texttt{GET /health}: verifica disponibilidad del servicio.
+  \item \texttt{POST /orders}: crea un pedido.
+  \item \texttt{GET /orders}: lista pedidos con filtros y ordenamiento.
+  \item \texttt{GET /orders/\{id\}}: consulta un pedido especifico.
+  \item \texttt{PATCH /orders/\{id\}/status}: actualiza el estado del pedido.
+\end{itemize}
+
+\section{Automatizacion DevOps en AWS}
+
+\subsection{Control de versiones}
+
+El codigo fuente y la infraestructura como codigo se gestionan en un repositorio AWS CodeCommit. La plantilla de CloudFormation crea el repositorio base para el proyecto.
+
+\textbf{Evidencia sugerida:} insertar captura del repositorio CodeCommit con los archivos \texttt{src/}, \texttt{buildspec.yml}, \texttt{Dockerfile} e \texttt{infrastructure/cloudformation-pipeline.yml}.
+
+\subsection{Integracion continua}
+
+AWS CodePipeline se configura para iniciar el flujo cuando se confirman cambios en la rama principal. AWS CodeBuild usa el archivo \texttt{buildspec.yml} para instalar dependencias, ejecutar pruebas unitarias y preparar el artefacto de despliegue.
+
+\textbf{Evidencia sugerida:} insertar captura de CodeBuild mostrando una ejecucion exitosa y el log con \texttt{npm test}.
+
+\subsection{Entrega continua}
+
+El pipeline incluye una etapa de despliegue hacia AWS Elastic Beanstalk. El artefacto generado por CodeBuild contiene el codigo de la API y el \texttt{Procfile}, por lo que Elastic Beanstalk puede iniciar el servidor con Node.js.
+
+\textbf{Evidencia sugerida:} insertar captura de CodePipeline con las etapas Source, Build y DeployTest en verde.
+
+\subsection{Monitoreo}
+
+Elastic Beanstalk publica eventos y metricas en Amazon CloudWatch. Esto permite revisar logs, errores y estado del entorno desplegado.
+
+\textbf{Evidencia sugerida:} insertar captura de eventos de Elastic Beanstalk o logs en CloudWatch.
+
+\section{Infraestructura como codigo}
+
+Se creo la plantilla \texttt{infrastructure/cloudformation-pipeline.yml}, que provisiona:
+
+\begin{itemize}
+  \item Repositorio AWS CodeCommit.
+  \item Bucket S3 para artefactos.
+  \item Proyecto AWS CodeBuild.
+  \item Pipeline AWS CodePipeline.
+  \item Aplicacion y entorno AWS Elastic Beanstalk.
+  \item Roles IAM necesarios para CodeBuild y CodePipeline.
+\end{itemize}
+
+\section{Pruebas}
+
+Las pruebas unitarias verifican:
+
+\begin{itemize}
+  \item Creacion de pedidos validos.
+  \item Listado y consulta de pedidos.
+  \item Actualizacion del estado.
+  \item Rechazo de datos incompletos o estados invalidos.
+\end{itemize}
+
+\section{Conclusiones}
+
+La solucion cumple los requisitos funcionales del caso de estudio y define un flujo DevOps automatizado en AWS. El pipeline permite que cada cambio confirmado en el repositorio sea construido, probado y desplegado automaticamente. Como mejora futura, se recomienda agregar persistencia con DynamoDB o RDS, autenticacion de usuarios y despliegue separado para ambientes de pruebas y produccion.
+
+\end{document}

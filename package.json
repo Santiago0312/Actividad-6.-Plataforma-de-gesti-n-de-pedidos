@@ -1,0 +1,14 @@
+{
+  "name": "order-management-api",
+  "version": "1.0.0",
+  "description": "API REST para gestion de pedidos con pipeline CI/CD en AWS.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test/orders.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

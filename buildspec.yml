@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "Instalando dependencias"
+      - npm install
+  pre_build:
+    commands:
+      - echo "Ejecutando pruebas unitarias"
+      - npm test
+  build:
+    commands:
+      - echo "Preparando artefacto de despliegue"
+      - mkdir -p dist
+      - cp -r src package.json package-lock.json Procfile dist/ 2>/dev/null || cp -r src package.json Procfile dist/
+      - cp Dockerfile dist/
+  post_build:
+    commands:
+      - echo "Build finalizado correctamente"
+
+artifacts:
+  base-directory: dist
+  files:
+    - "**/*"
+
+cache:
+  paths:
+    - "/root/.npm/**/*"
